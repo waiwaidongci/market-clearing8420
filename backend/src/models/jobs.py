@@ -50,3 +50,31 @@ class Delivery(Base):
     state: Mapped[str] = mapped_column(String(20))
     detail: Mapped[str] = mapped_column(String(500))
     created_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class SampleDay(Base):
+    """Per settlement-day sampling quota; the row lock serialises concurrent draws."""
+
+    __tablename__ = 'sample_days'
+
+    day: Mapped[str] = mapped_column(String(10), primary_key=True)
+    budget: Mapped[int] = mapped_column(default=0)
+    zone_minimum: Mapped[int] = mapped_column(default=0)
+    group_minimum: Mapped[int] = mapped_column(default=0)
+    snapshot: Mapped[dict | None] = mapped_column(JSON)
+    updated_at: Mapped[datetime] = mapped_column(default=now)
+
+
+class SampleDraw(Base):
+    """A voucher already drawn for a settlement day; one row per original redemption."""
+
+    __tablename__ = 'sample_draws'
+    __table_args__ = (UniqueConstraint('day', 'transaction_key'),)
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    day: Mapped[str] = mapped_column(String(10), index=True)
+    transaction_key: Mapped[str] = mapped_column(String(100))
+    zone: Mapped[str | None] = mapped_column(String(80))
+    merchant_group: Mapped[str | None] = mapped_column(String(80))
+    author: Mapped[str] = mapped_column(String(64))
+    created_at: Mapped[datetime] = mapped_column(default=now)

@@ -28,3 +28,9 @@ class ScheduleRequest(RunRequest):
     recipient: str = Field(min_length=1, max_length=100)
     first_at: datetime
     repeat_daily: bool = False
+
+class SampleRequest(Request):
+    dataset_id: int = Field(gt=0)
+    budget: int = Field(ge=0, le=500)
+    zone_minimum: int = Field(ge=0, le=500)
+    group_minimum: int = Field(ge=0, le=500)

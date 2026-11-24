@@ -12,10 +12,11 @@ _MISSING_CAMPUS = "校园券账缺失"
 _MISSING_CANTEEN = "食堂核销账缺失"
 _DIFFERENCE = "差异"
 _STATUSES = (_MATCH, _MISSING_CAMPUS, _MISSING_CANTEEN, _DIFFERENCE)
-_COMPARE = (
+COMPARE = (
     ("kind", "记账类型"), ("original_key", "原核销流水号"), ("zone", "校区"),
     ("merchant_group", "档口组"), ("amount_cents", "金额"),
 )
+_COMPARE = COMPARE
 _SUMMARY_COLUMNS = (
     ("campus_count", "校园券账行数"), ("canteen_count", "食堂核销账行数"),
     ("campus_cents", "校园券账净额（分）"), ("canteen_cents", "食堂核销账净额（分）"),
